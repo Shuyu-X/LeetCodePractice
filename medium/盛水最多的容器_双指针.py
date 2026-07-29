@@ -9,3 +9,24 @@
 不能排序：排序会改变顺序，导致宽度发生变化
 长板怎么选：不需要指定最长的长板（无意义），使用双指针指定左右板，谁短移动谁，因为长板不参与计算，长1还是长100都没有意义。
 """
+
+class Solution(object):
+    def max(self,height):
+        Left = 0
+        Right = len(height) - 1 #定义左右指针，先选最远的两边
+        max_area = 0 #用于记录当前面积，如果有更大的就更新，没有就保持，最后输出这个
+        while Left < Right: #左右两边向中间移动，相遇后停止
+            if height[Left] < height[Right]:
+                area = height[Left] * (Right - Left) #计算面积，短板*宽度
+                Left += 1 #左边短板，因此左边指针右移
+                max_area = max(area,max_area) #比较，将更大的面积记录下来
+            else: #右边板子短，则右指针左移
+                area = height[Right] * (Right - Left)
+                Right -= 1 #右指针左移
+                max_area = max(area,max_area)
+        
+        return max_area
+
+if __name__ == "__main__":
+    height = [1,8,6,2,5,4,8,3,7]
+    print(Solution().max(height))
